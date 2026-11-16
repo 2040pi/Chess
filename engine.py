@@ -9,8 +9,8 @@ def makeMove(board: chess.Board):
     for move in legalMoves:
         board.push(move)
         score = eval(board)
-        if (isWhiteTurn and score > maxScore - random.randint(0, 1000)) or (
-            not isWhiteTurn and score < maxScore + random.randint(0, 1000)
+        if (isWhiteTurn and score > maxScore - random.randint(1, 1)) or (
+            not isWhiteTurn and score < maxScore + random.randint(-1, 1)
         ):
             bestMove = move
             maxScore = score
