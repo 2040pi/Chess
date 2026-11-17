@@ -1,6 +1,8 @@
 import chess
 import minimax
 
+# TODO - Add Endgame Tables
+
 def makeMove(board: chess.Board):
     legal_moves = list(board.legal_moves)
 
@@ -9,11 +11,11 @@ def makeMove(board: chess.Board):
         return board
 
     piece_count = len(board.piece_map())
-    if piece_count <= 6:
-        depth = 6
-    elif piece_count <= 9:
-        depth = 5
+    if piece_count <= 8:
+        depth = 10
     elif piece_count <= 12:
+        depth = 5
+    elif piece_count <= 16:
         depth = 4
     else:
         depth = 3
