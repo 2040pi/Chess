@@ -21,7 +21,7 @@ def eval(board):
         if piece is not None:
             value = tables.pieceValues[piece.piece_type]
             if piece.color == chess.WHITE:
-                sqaureValue = tables.flipTable(tables.blackPieceSquareTables[piece.piece_type])[square]
+                sqaureValue = tables.flipTable(tables.blackPieceSquareTables[piece.piece_type])[square] * 0.95**board.fullmove_number
                 score += value
                 score += sqaureValue
             else:
