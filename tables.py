@@ -7,7 +7,7 @@ import chess
 # These tables are for BLACK. They must be flipped for WHITE
 # These are the tables for start and middle of the game
 # Endgame tables here: https://github.com/VedantJoshi1409/Bitterfish/blob/main/src/Evaluation.java
-blackPieceSquareTables = {
+startPieceSquareTables = {
     chess.PAWN: [
         0, 0, 0, 0, 0, 0, 0, 0,
         98, 134, 61, 95, 68, 126, 34, -11,
@@ -70,6 +70,72 @@ blackPieceSquareTables = {
     ]
 }
 
+endPieceSquareTables = {
+    chess.PAWN: [
+         0, 0, 0, 0, 0, 0, 0, 0,
+        178, 173, 158, 134, 147, 132, 165, 187,
+        94, 100, 85, 67, 56, 53, 82, 84,
+        32, 24, 13, 5, -2, 4, 17, 17,
+        13, 9, -3, -7, -7, -8, 3, -1,
+        4, 7, -6, 1, 0, -5, -1, -8,
+        13, 8, 8, 10, 13, 0, 2, -7,
+        0, 0, 0, 0, 0, 0, 0, 0
+    ],
+    chess.KNIGHT: [
+        -58, -38, -13, -28, -31, -27, -63, -99,
+        -25, -8, -25, -2, -9, -25, -24, -52,
+        -24, -20, 10, 9, -1, -9, -19, -41,
+        -17, 3, 22, 22, 22, 11, 8, -18,
+        -18, -6, 16, 25, 16, 17, 4, -18,
+        -23, -3, -1, 15, 10, -3, -20, -22,
+        -42, -20, -10, -5, -2, -20, -23, -44,
+        -29, -51, -23, -15, -22, -18, -50, -64
+    ],
+    chess.BISHOP: [
+        -14, -21, -11, -8, -7, -9, -17, -24,
+        -8, -4, 7, -12, -3, -13, -4, -14,
+        2, -8, 0, -1, -2, 6, 0, 4,
+        -3, 9, 12, 9, 14, 10, 3, 2,
+        -6, 3, 13, 19, 7, 10, -3, -9,
+        -12, -3, 8, 10, 13, 3, -7, -15,
+        -14, -18, -7, -1, 4, -9, -15, -27,
+        -23, -9, -23, -5, -9, -16, -5, -17
+    ],
+    chess.ROOK: [
+        13, 10, 18, 15, 12, 12, 8, 5,
+        11, 13, 13, 11, -3, 3, 8, 3,
+        7, 7, 7, 5, 4, -3, -5, -3,
+        4, 3, 13, 1, 2, 1, -1, 2,
+        3, 5, 8, 4, -5, -6, -8, -11,
+        -4, 0, -5, -1, -7, -12, -8, -16,
+        -6, -6, 0, 2, -9, -9, -11, -3,
+        -9, 2, 3, -1, -5, -13, 4, -20
+    ],
+    chess.QUEEN: [
+        -9, 22, 22, 27, 27, 19, 10, 20,
+        -17, 20, 32, 41, 58, 25, 30, 0,
+        -20, 6, 9, 49, 47, 35, 19, 9,
+        3, 22, 24, 45, 57, 40, 57, 36,
+        -18, 28, 19, 47, 31, 34, 39, 23,
+        -16, -27, 15, 6, 9, 17, 10, 5,
+        -22, -23, -30, -16, -16, -23, -36, -32,
+        -33, -28, -22, -43, -5, -32, -20, -41
+    ],
+    chess.KING: [
+        -74, -35, -18, -18, -11, 15, 4, -17,
+        -12, 17, 14, 17, 17, 38, 23, 11,
+        10, 17, 23, 15, 20, 45, 44, 13,
+        -8, 22, 24, 27, 26, 33, 26, 3,
+        -18, -4, 21, 24, 27, 23, 9, -11,
+        -19, -3, 11, 21, 23, 16, 7, -9,
+        -27, -11, 4, 13, 14, 4, -5, -17,
+        -53, -34, -21, -11, -28, -14, -24, -43
+    ]
+}
+
+
+
+
 flip = [
     56, 57, 58, 59, 60, 61, 62, 63,
     48, 49, 50, 51, 52, 53, 54, 55,
@@ -87,6 +153,19 @@ def flipTable(table):
     for square in flip:
         flippedTable.append(table[square])
     return flippedTable
+
+def blendTables(piece: chess.Piece, flipped, progress):
+    progressFrac = progress/40
+    if progressFrac > 1: progressFrac = 1
+    startTable = startPieceSquareTables[piece]
+    endTable = endPieceSquareTables[piece]
+    newTable = []
+    for i in range(64):
+        newTable.append(startTable[i]*(1-progressFrac)+endTable[i]*progressFrac)
+    if flipped:
+        newTable = flipTable(newTable)
+    return newTable
+
 
 pieceValues = {
     chess.PAWN: 100,
