@@ -34,6 +34,11 @@ def eval(board):
                 score -= value
                 score -= sqaureValue
                 
+    if board.turn == chess.WHITE:
+      score -= board.occupied.bit_count()*5
+    else:
+      score += board.occupied.bit_count()*5
+                
     return score
 
 def orderedMoves(board: chess.Board):
