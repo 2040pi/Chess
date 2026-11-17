@@ -158,11 +158,11 @@ def blendTables(piece: chess.Piece, flipped, board):
     score = 0
     for square in chess.SQUARES:
         boardPiece = board.piece_at(square)
-        if boardPiece is not None:
+        if boardPiece is not None and not chess.PAWN:
             value = pieceValues[boardPiece.piece_type]
             score += value
 
-    progress = 1 - (score - 1000)/3000
+    progress = 1 - (score - 700)/2500
     if progress < 0:
         progress = 0
     elif progress > 1:
@@ -185,10 +185,3 @@ pieceValues = {
     chess.QUEEN: 900,
     chess.KING: 0
 }
-
-#0
-#900
-#1900
-#2560
-#3200
-#4000

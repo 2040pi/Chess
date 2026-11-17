@@ -2,6 +2,7 @@ import chess
 import chess.pgn
 import engine
 import time
+import eval
 
 board = chess.Board()
 
@@ -22,6 +23,7 @@ while status:
         print("#Legal Moves = " + str(len(list(board.legal_moves))))
         print("Chosen Move = " + board.san(prevMove))
         board.push(prevMove)
+        print("Board Eval = " + str(eval.eval(board)))
 
 print(board)
 

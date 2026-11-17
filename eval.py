@@ -27,8 +27,8 @@ def eval(board):
                 score -= sqaureValue
                 
     if board.turn == chess.WHITE:
-      score -= board.occupied.bit_count()*5
+      score -= board.occupied.bit_count()*10
     else:
-      score += board.occupied.bit_count()*5
+      score += board.occupied.bit_count()*10
                 
     return score
