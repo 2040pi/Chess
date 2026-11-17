@@ -154,14 +154,24 @@ def flipTable(table):
         flippedTable.append(table[square])
     return flippedTable
 
-def blendTables(piece: chess.Piece, flipped, progress):
-    progressFrac = progress/40
-    if progressFrac > 1: progressFrac = 1
+def blendTables(piece: chess.Piece, flipped, board):
+    score = 0
+    for square in chess.SQUARES:
+        boardPiece = board.piece_at(square)
+        if boardPiece is not None:
+            value = pieceValues[boardPiece.piece_type]
+            score += value
+
+    progress = 1 - (score - 1000)/3000
+    if progress < 0:
+        progress = 0
+    elif progress > 1:
+        progress = 1
     startTable = startPieceSquareTables[piece]
     endTable = endPieceSquareTables[piece]
     newTable = []
     for i in range(64):
-        newTable.append(startTable[i]*(1-progressFrac)+endTable[i]*progressFrac)
+        newTable.append(startTable[i]*(1-progress)+endTable[i]*progress)
     if flipped:
         newTable = flipTable(newTable)
     return newTable
@@ -175,3 +185,10 @@ pieceValues = {
     chess.QUEEN: 900,
     chess.KING: 0
 }
+
+#0
+#900
+#1900
+#2560
+#3200
+#4000
