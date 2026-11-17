@@ -3,7 +3,12 @@ import tables
 
 def makeMove(board: chess.Board):
     isWhiteTurn = board.turn == chess.WHITE
-    bestMove = minimax_root(4, board, is_maximising_player =isWhiteTurn)
+    depth = 0
+    if len(list(board.legal_moves)) > 10:
+      depth = 3
+    else:
+      depth = 4
+    bestMove = minimax_root(depth, board, is_maximising_player =isWhiteTurn)
 
     board.push(bestMove)
     return board
