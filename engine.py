@@ -31,23 +31,24 @@ def eval(board):
                 
     return score
 
-# def orderMoves(board: chess.Board):
-#    legalMoves = board.legal_moves
-#    pass
+def orderedMoves(board: chess.Board):
+   legalMoves = list(board.legal_moves)
+   orderedMoves = sorted(legalMoves, key=lambda x: quickEval(board, x))
+   return orderedMoves
 
-# def quickEval(board: chess.Board, move):
-#   if board.is_capture(move):
-#     if board.is_en_passant(move):
-#       return chess.PAWN
-#     else:
-#       return tables.pieceValues[board.piece_at(move.to_square).piece_type]
-#   return 0
+def quickEval(board: chess.Board, move):
+  if board.is_capture(move):
+    if board.is_en_passant(move):
+      return chess.PAWN
+    else:
+      return tables.pieceValues[board.piece_at(move.to_square).piece_type]
+  return 0
 
 def minimax(depth, board, alpha, beta, is_maximising_player):
   if depth == 0 or board.is_game_over():
     return eval(board)
 
-  legal_moves = list(board.legal_moves)
+  legal_moves = orderedMoves(board)
   if not legal_moves:
     return eval(board)
 
@@ -74,7 +75,7 @@ def minimax(depth, board, alpha, beta, is_maximising_player):
 
 
 def minimax_root(depth, board, is_maximising_player = True):
-  legal_moves = list(board.legal_moves)
+  legal_moves = orderedMoves(board)
   best_move = -99999 if is_maximising_player else 99999
   best_move_found = None
 
