@@ -3,8 +3,9 @@ import tables
 
 def orderedMoves(board: chess.Board):
    legalMoves = list(board.legal_moves)
-   orderedMoves = sorted(legalMoves, key=lambda x: quickEval(board, x))
+   orderedMoves = sorted(legalMoves, key=lambda x: -quickEval(board, x))
    return orderedMoves
+
 
 def quickEval(board: chess.Board, move):
   score = 0
