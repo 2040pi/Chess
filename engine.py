@@ -4,7 +4,11 @@ import tables
 def makeMove(board: chess.Board):
     isWhiteTurn = board.turn == chess.WHITE
     depth = 0
-    if len(list(board.legal_moves)) > 10:
+    if board.occupied.bit_count() < 4:
+       depth = 7
+    elif board.occupied.bit_count() < 8:
+       depth = 5
+    elif len(list(board.legal_moves)) > 10:
       depth = 3
     else:
       depth = 4
