@@ -1,6 +1,7 @@
 import chess
 import chess.pgn
 import engine
+import time
 
 board = chess.Board()
 
@@ -13,7 +14,13 @@ while status:
             f.write(pgn)
         break
     else:
+        print("Move " + str(board.fullmove_number) + " - " + ("White" if board.turn else "Black"))
+        startTime = time.time()
         board = engine.makeMove(board)
+        endTime= time.time()
+        print("Time To Move = ~" + str(int(endTime-startTime)) + "s")
+
         prevMove = board.pop()
-        print(board.san(prevMove))
+        print("#Legal Moves = " + str(len(list(board.legal_moves))))
+        print("Chosen Move = " + board.san(prevMove))
         board.push(prevMove)

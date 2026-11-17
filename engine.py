@@ -23,6 +23,11 @@ def eval(board):
         return -99999 if board.turn == chess.WHITE else 99999
     if board.is_stalemate() or board.is_insufficient_material():
         return 0
+    
+    #
+    # TODO - Add scoring for check
+    # TODO - Add scoring for controlling squares (More than opponent, prioritise centre)
+    #
 
     score = 0
     for square in chess.SQUARES:
@@ -67,7 +72,7 @@ def minimax(depth, board, alpha, beta, is_maximising_player):
     return eval(board)
 
   if(is_maximising_player):
-    best_move = -99999
+    best_move = -999999
     for move in legal_moves:
       board.push(move)
       best_move = max(best_move, minimax(depth-1, board, alpha, beta, not is_maximising_player))
@@ -77,7 +82,7 @@ def minimax(depth, board, alpha, beta, is_maximising_player):
         return best_move
     return best_move
   else:
-    best_move = 99999
+    best_move = 999999
     for move in legal_moves:
       board.push(move)
       best_move = min(best_move, minimax(depth-1, board, alpha, beta, not is_maximising_player))
@@ -90,7 +95,7 @@ def minimax(depth, board, alpha, beta, is_maximising_player):
 
 def minimax_root(depth, board, is_maximising_player = True):
   legal_moves = orderedMoves(board)
-  best_move = -99999 if is_maximising_player else 99999
+  best_move = -999999 if is_maximising_player else 999999
   best_move_found = None
 
   for move in legal_moves:
