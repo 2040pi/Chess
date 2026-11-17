@@ -3,7 +3,12 @@ import tables
 
 def makeMove(board: chess.Board):
     isWhiteTurn = board.turn == chess.WHITE
-    bestMove = minimax_root(3, board, is_maximising_player =isWhiteTurn)
+    depth = 0
+    if len(list(board.legal_moves)) > 10:
+      depth = 3
+    else:
+      depth = 4
+    bestMove = minimax_root(depth, board, is_maximising_player =isWhiteTurn)
 
     board.push(bestMove)
     return board
@@ -21,11 +26,11 @@ def eval(board):
         if piece is not None:
             value = tables.pieceValues[piece.piece_type]
             if piece.color == chess.WHITE:
-                sqaureValue = tables.flipTable(tables.blackPieceSquareTables[piece.piece_type])[square]
+                sqaureValue = tables.blendTables(piece.piece_type, True, board.fullmove_number)[square]
                 score += value
                 score += sqaureValue
             else:
-                sqaureValue = tables.blackPieceSquareTables[piece.piece_type][square]
+                sqaureValue = tables.blendTables(piece.piece_type, False, board.fullmove_number)[square]
                 score -= value
                 score -= sqaureValue
                 

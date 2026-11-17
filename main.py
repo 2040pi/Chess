@@ -14,3 +14,6 @@ while status:
         break
     else:
         board = engine.makeMove(board)
+        prevMove = board.pop()
+        print(board.san(prevMove))
+        board.push(prevMove)
