@@ -10,11 +10,11 @@ def makeMove(board: chess.Board):
         board.push(legal_moves[0])
         return board
     piece_count = len(board.piece_map())
-    if piece_count <= 8 and len(legal_moves) <= 8:
+    if piece_count <= 8 and len(legal_moves) <= 12:
         depth = 10
-    elif piece_count <= 12 and len(legal_moves) <= 12:
+    elif piece_count <= 12 and len(legal_moves) <= 18:
         depth = 5
-    elif piece_count <= 16 and len(legal_moves) <= 16:
+    elif piece_count <= 16 and len(legal_moves) <= 24:
         depth = 4
     else:
         depth = 3
