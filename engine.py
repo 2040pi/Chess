@@ -17,6 +17,7 @@ def makeMove(board: chess.Board):
     elif piece_count <= 16 and len(legal_moves) <= 24:
         depth = 4
     else:
+        # If the depth goes above 3 it is way too slow
         depth = 3
 
     isWhiteTurn = board.turn == chess.WHITE
