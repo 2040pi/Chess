@@ -162,7 +162,7 @@ def blendTables(piece: chess.Piece, flipped, board):
             value = pieceValues[boardPiece.piece_type]
             score += value
 
-    progress = 1 - (score - 700)/2500
+    progress = 1 - (score - 1800)/4600
     if progress < 0:
         progress = 0
     elif progress > 1:

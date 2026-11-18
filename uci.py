@@ -18,7 +18,7 @@ import engine
 
 
 ENGINE_NAME = "Bobby Chess"
-# SEARCH_DEPTH = 3  # engine.makeMove() currently searches a fixed depth of three.
+SEARCH_DEPTH = 3  # engine.makeMove() currently searches a fixed depth of three.
 OUTPUT_LOCK = threading.Lock()
 board = chess.Board()
 active_search = None
@@ -131,7 +131,7 @@ def start_search(command):
         if defer_output and best_move != "0000":
             release.wait()
         if not suppress_output.is_set():
-            send("info depth " + str(1 if best_move != "0000" else 0)) ## Depth is chosen by engine dynamically
+            send("info depth " + str(SEARCH_DEPTH if best_move != "0000" else 0))
             send("bestmove " + best_move)
 
     thread = threading.Thread(target=search, name="uci-search", daemon=True)
