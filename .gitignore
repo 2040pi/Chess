@@ -3,3 +3,4 @@ board.png
 *.pyc
 *.pgn
 game.pgn
+*.todo
