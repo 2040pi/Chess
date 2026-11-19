@@ -5,8 +5,7 @@ import chess
 #
 
 # These tables are for BLACK. They must be flipped for WHITE
-# These are the tables for start and middle of the game
-# Endgame tables here: https://github.com/VedantJoshi1409/Bitterfish/blob/main/src/Evaluation.java
+# Tables here: https://github.com/VedantJoshi1409/Bitterfish/blob/main/src/Evaluation.java
 startPieceSquareTables = {
     chess.PAWN: [
         0, 0, 0, 0, 0, 0, 0, 0,

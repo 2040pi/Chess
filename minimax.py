@@ -22,13 +22,7 @@ def minimax(depth, board, alpha, beta, is_maximising_player):
         best_score = -1000000
         for move in legal_moves:
             board.push(move)
-            score = minimax(
-                depth - 1,
-                board,
-                alpha,
-                beta,
-                False,
-            )
+            score = minimax(depth - 1, board, alpha, beta, False)
             board.pop()
 
             best_score = max(best_score, score)
@@ -40,13 +34,7 @@ def minimax(depth, board, alpha, beta, is_maximising_player):
         best_score = 1000000
         for move in legal_moves:
             board.push(move)
-            score = minimax(
-                depth - 1,
-                board,
-                alpha,
-                beta,
-                True,
-            )
+            score = minimax(depth - 1, board, alpha, beta, True)
             board.pop()
 
             best_score = min(best_score, score)
@@ -71,22 +59,10 @@ def minimax_root(depth, board, is_maximising_player=True):
             board.pop()
             return move
 
-        score = minimax(
-            depth - 1,
-            board,
-            -1000000,
-            1000000,
-            not is_maximising_player,
-        )
+        score = minimax(depth - 1, board, -1000000, 1000000, not is_maximising_player)
         board.pop()
 
-        if (
-            is_maximising_player
-            and score > best_score
-        ) or (
-            not is_maximising_player
-            and score < best_score
-        ):
+        if (is_maximising_player and score > best_score) or (not is_maximising_player and score < best_score):
             best_score = score
             best_move = move
 
