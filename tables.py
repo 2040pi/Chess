@@ -5,8 +5,7 @@ import chess
 #
 
 # These tables are for BLACK. They must be flipped for WHITE
-# These are the tables for start and middle of the game
-# Endgame tables here: https://github.com/VedantJoshi1409/Bitterfish/blob/main/src/Evaluation.java
+# Tables here: https://github.com/VedantJoshi1409/Bitterfish/blob/main/src/Evaluation.java
 startPieceSquareTables = {
     chess.PAWN: [
         0, 0, 0, 0, 0, 0, 0, 0,
@@ -162,7 +161,7 @@ def blendTables(piece: chess.Piece, flipped, board):
             value = pieceValues[boardPiece.piece_type]
             score += value
 
-    progress = 1 - (score - 1800)/4600
+    progress = 1 - (score - 1600)/2400
     if progress < 0:
         progress = 0
     elif progress > 1:
@@ -185,3 +184,4 @@ pieceValues = {
     chess.QUEEN: 900,
     chess.KING: 0
 }
+
