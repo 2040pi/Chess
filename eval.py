@@ -1,7 +1,7 @@
 import chess
 import tables
 
-def eval(board):
+def eval(board: chess.Board):
     if board.is_checkmate():
         return -99999 if board.turn == chess.WHITE else 99999
     if board.is_stalemate() or board.is_insufficient_material():
@@ -9,7 +9,7 @@ def eval(board):
     
     #
     # TODO - Add scoring for check
-    # TODO - Add scoring for controlling squares (More than opponent, prioritise centre)
+    # TODO - Add scoring for controlling squares (More than opponent, prioritise centre) <--- Work on this now
     #
 
     score = 0
@@ -25,10 +25,15 @@ def eval(board):
                 sqaureValue = tables.blendTables(piece.piece_type, False, board)[square]
                 score -= value
                 score -= sqaureValue
-                
+
+    otherConditionsScore = 0
+    otherConditionsScore -= board.occupied.bit_count()*10
+    otherConditionsScore += board.has_castling_rights(color=board.turn)*30
+    otherConditionsScore += board.is_check()*20
+              
     if board.turn == chess.WHITE:
-      score -= board.occupied.bit_count()*10
+        score += otherConditionsScore
     else:
-      score += board.occupied.bit_count()*10
+        score -= otherConditionsScore
                 
     return score
