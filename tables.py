@@ -157,7 +157,7 @@ def blendTables(piece: chess.Piece, flipped, board):
     score = 0
     for square in chess.SQUARES:
         boardPiece = board.piece_at(square)
-        if boardPiece is not None and not chess.PAWN:
+        if boardPiece is not None:
             value = pieceValues[boardPiece.piece_type]
             score += value
 

@@ -1,5 +1,6 @@
 import chess
 import tables
+import attackedSquares
 
 def eval(board: chess.Board):
     if board.is_checkmate():
@@ -26,14 +27,30 @@ def eval(board: chess.Board):
                 score -= value
                 score -= sqaureValue
 
-    otherConditionsScore = 0
-    otherConditionsScore -= board.occupied.bit_count()*10
-    otherConditionsScore += board.has_castling_rights(color=board.turn)*30
-    otherConditionsScore += board.is_check()*20
+    score += board.is_check()*-20 if board.turn == chess.WHITE else board.is_check()*20
+
+    # TODO - Make dependent on some sort of mask that values centre and opponent's side more
+    # Encourage attacking more squares
+    score += len(attackedSquares.attacked_squares(board, color=chess.WHITE))*15
+    score -= len(attackedSquares.attacked_squares(board, color=chess.BLACK))*15
+
+    #Dependent on colour
+    colorConditionsScore = 0
+
+    colorConditionsScore = -(board.occupied.bit_count() * 10)
+
+    if board.move_stack:
+        lastMove = board.peek()
+        movedPiece = board.piece_at(lastMove.to_square)
+        if (board.fullmove_number <= 8 and movedPiece is not None and movedPiece.piece_type == chess.ROOK):
+            colorConditionsScore -= 200 - 25 * board.fullmove_number
+
+
+    colorConditionsScore += board.is_check()*20
               
-    if board.turn == chess.WHITE:
-        score += otherConditionsScore
+    if board.turn == chess.BLACK:
+        score += colorConditionsScore
     else:
-        score -= otherConditionsScore
+        score -= colorConditionsScore
                 
     return score
