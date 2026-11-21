@@ -4,7 +4,7 @@ import tables
 def eval(board):
     if board.is_checkmate():
         return -99999 if board.turn == chess.WHITE else 99999
-    if board.is_stalemate() or board.is_insufficient_material():
+    if board.is_stalemate() or board.is_insufficient_material() or board.can_claim_draw():
         return 0
     
     #
