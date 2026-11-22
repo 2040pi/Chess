@@ -1,7 +1,8 @@
 import chess
 import tables
+import attackedSquares
 
-def eval(board):
+def eval(board: chess.Board):
     if board.is_checkmate():
         return -99999 if board.turn == chess.WHITE else 99999
     if board.is_stalemate() or board.is_insufficient_material() or board.can_claim_draw():
@@ -9,7 +10,7 @@ def eval(board):
     
     #
     # TODO - Add scoring for check
-    # TODO - Add scoring for controlling squares (More than opponent, prioritise centre)
+    # TODO - Add scoring for controlling squares (More than opponent, prioritise centre) <--- Work on this now
     #
 
     score = 0
@@ -25,10 +26,31 @@ def eval(board):
                 sqaureValue = tables.blendTables(piece.piece_type, False, board)[square]
                 score -= value
                 score -= sqaureValue
-                
-    if board.turn == chess.WHITE:
-      score -= board.occupied.bit_count()*10
+
+    score += board.is_check()*-20 if board.turn == chess.WHITE else board.is_check()*20
+
+    # TODO - Make dependent on some sort of mask that values centre and opponent's side more
+    # Encourage attacking more squares
+    score += attackedSquares.weightedAttackedSquaresSum(board=board, color=chess.WHITE)*5
+    score -= attackedSquares.weightedAttackedSquaresSum(board=board, color=chess.BLACK)*5
+
+    #Dependent on colour
+    colorConditionsScore = 0
+
+    colorConditionsScore = - (board.occupied.bit_count() * 10)
+
+    # if board.move_stack:
+    #     lastMove = board.peek()
+    #     movedPiece = board.piece_at(lastMove.to_square)
+    #     if (board.fullmove_number <= 8 and movedPiece is not None and movedPiece.piece_type == chess.ROOK):
+    #         colorConditionsScore -= 200 - 25 * board.fullmove_number
+
+
+    colorConditionsScore += board.is_check()*20
+              
+    if board.turn == chess.BLACK:
+        score += colorConditionsScore
     else:
-      score += board.occupied.bit_count()*10
+        score -= colorConditionsScore
                 
     return score

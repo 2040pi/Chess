@@ -153,11 +153,11 @@ def flipTable(table):
         flippedTable.append(table[square])
     return flippedTable
 
-def blendTables(piece: chess.Piece, flipped, board):
+def blendTables(piece: chess.PieceType, flipped, board):
     score = 0
     for square in chess.SQUARES:
         boardPiece = board.piece_at(square)
-        if boardPiece is not None and not chess.PAWN:
+        if boardPiece is not None:
             value = pieceValues[boardPiece.piece_type]
             score += value
 
@@ -184,4 +184,15 @@ pieceValues = {
     chess.QUEEN: 900,
     chess.KING: 0
 }
+
+attackedSquaresValue = [
+    1, 1, 1, 1, 1, 1, 1, 1,
+    1, 1, 1, 1, 1, 1, 1, 1,
+    2, 2, 2, 2, 2, 2, 2, 2,
+    2, 2, 2, 4, 4, 2, 2, 2,
+    3, 3, 3, 5, 5, 3, 3, 3,
+    3, 3, 3, 3, 3, 3, 3, 3,
+    4, 4, 4, 4, 4, 4, 4, 4,
+    4, 4, 4, 4, 4, 4, 4, 4
+]
 
