@@ -15,7 +15,7 @@ moveTimeTotal = 0
 running = True
 while running:
     if board.is_game_over():
-        if board.is_checkmate:
+        if board.is_checkmate():
             print("Checkmate")
         else:
             print("Draw")

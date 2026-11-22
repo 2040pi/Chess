@@ -31,19 +31,19 @@ def eval(board: chess.Board):
 
     # TODO - Make dependent on some sort of mask that values centre and opponent's side more
     # Encourage attacking more squares
-    score += len(attackedSquares.attacked_squares(board, color=chess.WHITE))*15
-    score -= len(attackedSquares.attacked_squares(board, color=chess.BLACK))*15
+    score += attackedSquares.weightedAttackedSquaresSum(board=board, color=chess.WHITE)*5
+    score -= attackedSquares.weightedAttackedSquaresSum(board=board, color=chess.BLACK)*5
 
     #Dependent on colour
     colorConditionsScore = 0
 
-    colorConditionsScore = -(board.occupied.bit_count() * 10)
+    colorConditionsScore = - (board.occupied.bit_count() * 10)
 
-    if board.move_stack:
-        lastMove = board.peek()
-        movedPiece = board.piece_at(lastMove.to_square)
-        if (board.fullmove_number <= 8 and movedPiece is not None and movedPiece.piece_type == chess.ROOK):
-            colorConditionsScore -= 200 - 25 * board.fullmove_number
+    # if board.move_stack:
+    #     lastMove = board.peek()
+    #     movedPiece = board.piece_at(lastMove.to_square)
+    #     if (board.fullmove_number <= 8 and movedPiece is not None and movedPiece.piece_type == chess.ROOK):
+    #         colorConditionsScore -= 200 - 25 * board.fullmove_number
 
 
     colorConditionsScore += board.is_check()*20
